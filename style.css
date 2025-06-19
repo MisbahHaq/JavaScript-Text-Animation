@@ -121,3 +121,33 @@ section {
 .anime-text .word span.keyword.vision::before {
     background-color: #c6fe69;
 }
+
+.anime-text .word,
+.anime-text .word span {
+    opacity: 0;
+}
+
+@media (max-width: 1000px) {
+    .copy-container h1 {
+        width: 90%;
+        font-size: 2rem;
+    }
+}
+
+.anime-text {
+    width: 90%;
+}
+
+.anime-text p {
+    font-size: 1.25rem;
+}
+
+.anime-text .word {
+    margin-right: 0.1rem;
+    margin-bottom: 0.15rem;
+    padding: 0.1rem 0.2rem;
+}
+
+.anime-text .word.keyword-wrapper {
+    margin: 0 0.2rem 0.1rem 0.1rem;
+}
