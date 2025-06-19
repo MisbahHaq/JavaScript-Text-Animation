@@ -1,7 +1,3 @@
-// import gsap from "gsap";
-// import { ScrollTrigger } from "gsap/ScrollTrigger";
-// import Lenis from "lenis";
-
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -48,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 wordContainer.appendChild(wordText);
                 paragraph.appendChild(wordContainer);
-                paragraph.appendChild(document.createTextNode(" ")); // adds space
+                paragraph.appendChild(document.createTextNode(" "));
             }
         });
     });
