@@ -1,6 +1,6 @@
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Lenis from "lenis";
+// import gsap from "gsap";
+// import { ScrollTrigger } from "gsap/ScrollTrigger";
+// import Lenis from "lenis";
 
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollTrigger);
@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
     gsap.ticker.lagSmoothing(0);
 
     const animeTextParagraphs = document.querySelectorAll(".anime-text p");
-
     const wordHighlightBgColor = "60, 60, 60";
 
     const keywords = [
@@ -46,15 +45,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     wordContainer.classList.add("keyword-wrapper");
                     wordText.classList.add("keyword", normalizedWord);
                 }
+
                 wordContainer.appendChild(wordText);
                 paragraph.appendChild(wordContainer);
+                paragraph.appendChild(document.createTextNode(" ")); // adds space
             }
         });
     });
 
-    const animeTextContainers = document.querySelectorAll(
-        ".anime-text-container"
-    );
+    const animeTextContainers = document.querySelectorAll(".anime-text-container");
 
     animeTextContainers.forEach((container) => {
         ScrollTrigger.create({
@@ -65,13 +64,12 @@ document.addEventListener("DOMContentLoaded", () => {
             pinSpacing: true,
             onUpdate: (self) => {
                 const progress = self.progress;
-                const words = Array.from(
-                    container.querySelectorAll(".anime-text .word")
-                );
+                const words = Array.from(container.querySelectorAll(".anime-text .word"));
                 const totalWords = words.length;
 
                 words.forEach((word, index) => {
-                    const wordText = word.querySelector("scan");
+                    const wordText = word.querySelector("span");
+
                     if (progress < 0.7) {
                         const progressTarget = 0.7;
                         const revealProgress = Math.min(1, progress / progressTarget);
@@ -100,23 +98,18 @@ document.addEventListener("DOMContentLoaded", () => {
                                     ? 1
                                     : (revealProgress - adjustedStart) / duration;
 
-                        word.computedStyleMap.opacity = wordProgress;
+                        word.style.opacity = wordProgress;
 
-                        const backgroundFadeStart =
-                            wordProgress > 0.9 ? (wordProgress - 0.9) / 0.1 : 0;
+                        const backgroundFadeStart = wordProgress > 0.9 ? (wordProgress - 0.9) / 0.1 : 0;
                         const backgroundColor = Math.max(0, 1 - backgroundFadeStart);
-                        word.computedStyleMap.backgroundColor = `rgba(${wordHighlightBgColor}, $ {backgroundOpacity})`;
+                        word.style.backgroundColor = `rgba(${wordHighlightBgColor}, ${backgroundColor})`;
 
                         const textRevealThreshold = 0.9;
                         const textRevealProgress =
                             wordProgress > textRevealThreshold
-                                ? (wordProgress - textRevealThreshold) /
-                                (1 - textRevealThreshold)
+                                ? (wordProgress - textRevealThreshold) / (1 - textRevealThreshold)
                                 : 0;
-                        wordText.computedStyleMap.opacity = Math.pow(
-                            textRevealProgress,
-                            0.5
-                        );
+                        wordText.style.opacity = Math.pow(textRevealProgress, 0.5);
                     } else {
                         const reverseProgress = (progress - 0.7) / 0.3;
                         word.style.opacity = 1;
@@ -124,31 +117,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         const reverseOverlapWords = 5;
                         const reverseWordStart = index / totalWords;
-                        const reverseWordEnd =
-                            reverseWordStart + reverseOverlapWords / totalWords;
+                        const reverseWordEnd = reverseWordStart + reverseOverlapWords / totalWords;
 
-
-                        const reverseTimelineScale = 1 / Math.max(
-                            1, (totalWords - 1) / totalWords + reverseOverlapWords / totalWords
-                        );
+                        const reverseTimelineScale =
+                            1 /
+                            Math.max(
+                                1,
+                                (totalWords - 1) / totalWords + reverseOverlapWords / totalWords
+                            );
 
                         const reverseAdjustedStart = reverseWordStart * reverseTimelineScale;
-                        const reverseAdjustedEnd = reverseEnd * reverseTimelineScale;
+                        const reverseAdjustedEnd = reverseWordEnd * reverseTimelineScale;
                         const reverseDuration = reverseAdjustedEnd - reverseAdjustedStart;
 
                         const reverseWordProgress =
-                            reverseProgress < reverseAdjustedStart ? 0
+                            reverseProgress < reverseAdjustedStart
+                                ? 0
                                 : reverseProgress > reverseAdjustedEnd
-                                    ? 1 :
-                                    (reverseProgress - reverseAdjustedStart) / reverseDuration;
-
-
+                                    ? 1
+                                    : (reverseProgress - reverseAdjustedStart) / reverseDuration;
 
                         if (reverseWordProgress > 0) {
-                            wordText.style.opacity =
-                                targetTextOpacity * (1 - reverseWordProgress);
-                            word.style.backgroundColor = `rgba(${wordHighlightBgColor}, $ 
-                                        {reverseWordProgress})`;
+                            wordText.style.opacity = targetTextOpacity * (1 - reverseWordProgress);
+                            word.style.backgroundColor = `rgba(${wordHighlightBgColor}, ${reverseWordProgress})`;
                         } else {
                             wordText.style.opacity = targetTextOpacity;
                             word.style.backgroundColor = `rgba(${wordHighlightBgColor}, 0)`;
