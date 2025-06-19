@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const normalizedWord = word.toLowerCase().replace(/[.,!?;:*]/g, "");
                 if (keywords.includes(normalizedWord)) {
                     wordContainer.classList.add("keyword-wrapper");
-                    wordText.classListadd("keyword", normalizedWord);
+                    wordText.classList.add("keyword", normalizedWord);
                 }
                 wordContainer.appendChild(wordText);
                 paragraph.appendChild(wordContainer);
