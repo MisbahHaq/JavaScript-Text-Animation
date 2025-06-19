@@ -41,7 +41,29 @@ document.addEventListener("DOMContentLoaded", () => {
                 const wordText = document.createElement("span");
                 wordText.textContent = word;
 
+
+                const normalizedWord = word.toLowerCase().replace(/[.,!?;:*]/g, "");
+                if (keywords.includes(normalizedWord)) {
+                    wordContainer.classList.add("keyword-wrapper");
+                    wordText.classListadd("keyword", normalizedWord);
+                }
+                wordContainer.appendChild(wordText);
+                paragraph.appendChild(wordContainer);
             }
         });
     });
+
+    const animeTextContainers = document.querySelectorAll(
+        ".anime-text-container"
+    );
+
+    animeTextContainers.forEach((container) => {
+        ScrollTrigger.create({
+            trigger: container,
+            pin: container,
+            start: "top top",
+            end: `+=${window.innerHeight * 4}`,
+            pinSpacing: true,
+        })
+    })
 });
