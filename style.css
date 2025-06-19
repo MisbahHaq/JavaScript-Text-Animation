@@ -34,3 +34,15 @@ section {
     font-weight: 900;
     line-height: 1;
 }
+
+.hero .copy-container {
+    background-color: #fe6d38;
+}
+
+.cta .copy-container {
+    background-color: #c6fe69;
+}
+
+.outro .copy-container {
+    background-color: #7a78ff;
+}
