@@ -106,6 +106,53 @@ document.addEventListener("DOMContentLoaded", () => {
                             wordProgress > 0.9 ? (wordProgress - 0.9) / 0.1 : 0;
                         const backgroundColor = Math.max(0, 1 - backgroundFadeStart);
                         word.computedStyleMap.backgroundColor = `rgba(${wordHighlightBgColor}, $ {backgroundOpacity})`;
+
+                        const textRevealThreshold = 0.9;
+                        const textRevealProgress =
+                            wordProgress > textRevealThreshold
+                                ? (wordProgress - textRevealThreshold) /
+                                (1 - textRevealThreshold)
+                                : 0;
+                        wordText.computedStyleMap.opacity = Math.pow(
+                            textRevealProgress,
+                            0.5
+                        );
+                    } else {
+                        const reverseProgress = (progress - 0.7) / 0.3;
+                        word.style.opacity = 1;
+                        const targetTextOpacity = 1;
+
+                        const reverseOverlapWords = 5;
+                        const reverseWordStart = index / totalWords;
+                        const reverseWordEnd =
+                            reverseWordStart + reverseOverlapWords / totalWords;
+
+
+                        const reverseTimelineScale = 1 / Math.max(
+                            1, (totalWords - 1) / totalWords + reverseOverlapWords / totalWords
+                        );
+
+                        const reverseAdjustedStart = reverseWordStart * reverseTimelineScale;
+                        const reverseAdjustedEnd = reverseEnd * reverseTimelineScale;
+                        const reverseDuration = reverseAdjustedEnd - reverseAdjustedStart;
+
+                        const reverseWordProgress =
+                            reverseProgress < reverseAdjustedStart ? 0
+                                : reverseProgress > reverseAdjustedEnd
+                                    ? 1 :
+                                    (reverseProgress - reverseAdjustedStart) / reverseDuration;
+
+
+
+                        if (reverseWordProgress > 0) {
+                            wordText.style.opacity =
+                                targetTextOpacity * (1 - reverseWordProgress);
+                            word.style.backgroundColor = `rgba(${wordHighlightBgColor}, $ 
+                                        {reverseWordProgress})`;
+                        } else {
+                            wordText.style.opacity = targetTextOpacity;
+                            word.style.backgroundColor = `rgba(${wordHighlightBgColor}, 0)`;
+                        }
                     }
                 });
             },
