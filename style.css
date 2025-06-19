@@ -106,6 +106,18 @@ section {
 
 .anime-text .word span.keyword.vibrant::before,
 .anime-text .word span.keyword.shape::before,
-.anime-text .word span.keyword.storytelling::before {
+.anime-text .word span.keyword.interactive::before {
     background-color: #7a78ff;
+}
+
+.anime-text .word span.keyword.living::before,
+.anime-text .word span.keyword.expression::before,
+.anime-text .word span.keyword.storytelling::before {
+    background-color: #fe6d38;
+}
+
+.anime-text .word span.keyword.clarity::before,
+.anime-text .word span.keyword.intuitive::before,
+.anime-text .word span.keyword.vision::before {
+    background-color: #c6fe69;
 }
