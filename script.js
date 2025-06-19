@@ -64,6 +64,36 @@ document.addEventListener("DOMContentLoaded", () => {
             start: "top top",
             end: `+=${window.innerHeight * 4}`,
             pinSpacing: true,
+            onUpdate: (self) => {
+                const progress = self.progress;
+                const words = Array.from(
+                    container.querySelectorAll(".anime-text .word")
+                );
+                const totalWords = words.length;
+
+                words.forEach((word, index) => {
+
+                    const wordText = word.querySelector("scan");
+                    if (progress < 0.7) {
+                        const progressTarget = 0.7;
+                        const revealProgress = Math.min(1, progress / progressTarget);
+
+                        const overlapWords = 15;
+                        const totalAnimationLength = 1 + overlapWords / totalWords;
+
+                        const wordStart = index / totalWords;
+                        const wordEnd = wordStart + overlapWords / totalWords;
+
+                        const timelineScale = 1 / Math.min(totalAnimationLength, 1 + (totalWords - 1) / totalWords + overlapWords / totalWords);
+
+                        const adjustedStart = wordStart * timelineScale;
+                        const adjustedEnd = wordEnd * timelineScale;
+                        const duration = adjustedEnd - adjustedStart;
+
+                        const wordProgress = revealProgress < adjustedStart ? 0 : reveal
+                    }
+                })
+            }
         })
     })
 });
