@@ -28,5 +28,20 @@ document.addEventListener("DOMContentLoaded", () => {
         "vision",
     ];
 
-    animeText
+    animeTextParagraphs.forEach((paragraph) => {
+        const text = paragraph.textContent;
+        const words = text.split(/\s+/);
+        paragraph.innerHTML = "";
+
+        words.forEach((word) => {
+            if (word.trim()) {
+                const wordContainer = document.createElement("div");
+                wordContainer.className = "word";
+
+                const wordText = document.createElement("span");
+                wordText.textContent = word;
+
+            }
+        });
+    });
 });
