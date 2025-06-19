@@ -46,3 +46,21 @@ section {
 .outro .copy-container {
     background-color: #7a78ff;
 }
+
+.about .copy-container,
+.features .copy-container {
+    border: 0.15rem dashed rgb(60, 60, 60);
+}
+
+.anime-text {
+    width: 60%;
+}
+
+.anime-text {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1;
+}
