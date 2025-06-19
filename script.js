@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 const wordText = document.createElement("span");
                 wordText.textContent = word;
 
-
                 const normalizedWord = word.toLowerCase().replace(/[.,!?;:*]/g, "");
                 if (keywords.includes(normalizedWord)) {
                     wordContainer.classList.add("keyword-wrapper");
@@ -72,7 +71,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 const totalWords = words.length;
 
                 words.forEach((word, index) => {
-
                     const wordText = word.querySelector("scan");
                     if (progress < 0.7) {
                         const progressTarget = 0.7;
@@ -84,16 +82,33 @@ document.addEventListener("DOMContentLoaded", () => {
                         const wordStart = index / totalWords;
                         const wordEnd = wordStart + overlapWords / totalWords;
 
-                        const timelineScale = 1 / Math.min(totalAnimationLength, 1 + (totalWords - 1) / totalWords + overlapWords / totalWords);
+                        const timelineScale =
+                            1 /
+                            Math.min(
+                                totalAnimationLength,
+                                1 + (totalWords - 1) / totalWords + overlapWords / totalWords
+                            );
 
                         const adjustedStart = wordStart * timelineScale;
                         const adjustedEnd = wordEnd * timelineScale;
                         const duration = adjustedEnd - adjustedStart;
 
-                        const wordProgress = revealProgress < adjustedStart ? 0 : reveal
+                        const wordProgress =
+                            revealProgress < adjustedStart
+                                ? 0
+                                : revealProgress > adjustedEnd
+                                    ? 1
+                                    : (revealProgress - adjustedStart) / duration;
+
+                        word.computedStyleMap.opacity = wordProgress;
+
+                        const backgroundFadeStart =
+                            wordProgress > 0.9 ? (wordProgress - 0.9) / 0.1 : 0;
+                        const backgroundColor = Math.max(0, 1 - backgroundFadeStart);
+                        word.computedStyleMap.backgroundColor = `rgba(${wordHighlightBgColor}, $ {backgroundOpacity})`;
                     }
-                })
-            }
-        })
-    })
+                });
+            },
+        });
+    });
 });
