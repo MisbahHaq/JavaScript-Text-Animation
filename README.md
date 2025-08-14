@@ -1,2 +1,2 @@
-# Miscellaneous-5
-JS Practice
+# Text Animation Using JavaScript
+
